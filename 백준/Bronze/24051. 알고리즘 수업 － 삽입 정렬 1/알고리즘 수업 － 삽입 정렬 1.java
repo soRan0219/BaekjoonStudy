@@ -5,40 +5,41 @@ import java.util.StringTokenizer;
 
 public class Main {
 	
-	static void insertion(int[] arr, long k) {
-		int result = 0;
-		for(int i=1; i<arr.length; i++) {
-			int tmp = arr[i];
-			int j;
-			for(j=i; j>0 && arr[j-1]>tmp; j--) {
-				arr[j] = arr[j-1];
-				result++;
-				if(result==k) System.out.println(arr[j-1]);
-				
-			}
-			
-			arr[j] = tmp;
-			if(j!=i) result++;
-			
-		}
-		if(result < k) System.out.println(-1);
+	static int insertionSort(int[] arr, int k) {
+		int cnt = 0;
 		
-	} //insertion()
+		for(int i=1; i<arr.length; i++) {
+			int loc = i - 1;
+			int newItem = arr[i];
+			
+			while(0<=loc && newItem<arr[loc]) {
+				arr[loc+1] = arr[loc];
+				cnt++;
+				if(cnt == k) return arr[loc+1];
+				loc--;
+			}
+			if(loc+1 != i) {
+				arr[loc+1] = newItem;
+				cnt++;
+			}
+			if(cnt == k) return arr[loc+1];
+		}
+		
+		return -1;
+	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
 		int n = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
+		
 		int[] arr = new int[n];
-		long k = Long.parseLong(st.nextToken());
-		
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<n; i++) {
+		for(int i=0; i<n; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
-		}
 		
-		insertion(arr, k);
+		System.out.println(insertionSort(arr, k));
 		
-	} //main()
+	}
 }
