@@ -1,49 +1,46 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int exchg;
 	
-	static void swap(int[] a, int idx1, int idx2) {
-		int t = a[idx1];
-		a[idx1] = a[idx2];
-		a[idx2] = t;
-	} //swap()
+	static void swap(int[] arr, int idx1, int idx2) {
+		int tmp = arr[idx1];
+		arr[idx1] = arr[idx2];
+		arr[idx2] = tmp;
+	}
 	
-	static void selectionSort(int[] a, int len, int k) {
-		for(int i=len-1; i>0; i--) {
+	static void selectionSort(int[] arr, int k) {
+		int cnt = 0;
+		
+		for(int i=arr.length-1; i>0; i--) {
 			int max = i;
-			for(int j=i; j>=0; j--) {
-				if(a[max] < a[j]) {
-					max = j;
+			int j;
+			for(j=i-1; j>=0; j--) {
+				max = arr[max]>arr[j] ? max : j;
+			}
+			if(arr[i] != arr[max]) {
+				cnt++;
+				swap(arr, i, max);
+				if(cnt == k) {
+					System.out.println(arr[max] + " " + arr[i]);
+					return;
 				}
 			}
-			if(max != i) {
-				swap(a, i, max);
-				if(++exchg == k) System.out.println(a[max] + " " + a[i]);
-			}
 		}
-		if(exchg < k) System.out.println(-1);
-	} //selectionSort()
+		System.out.println(-1);
+	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int len = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(st.nextToken());
 		int k = Integer.parseInt(st.nextToken());
 		
-		int[] arr = new int[len];
-		
+		int[] arr = new int[n];
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<len; i++) {
+		for(int i=0; i<n; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
-		}
 		
-		selectionSort(arr, len, k);
-		
-	} //main()
-
+		selectionSort(arr, k);
+	}
 }
