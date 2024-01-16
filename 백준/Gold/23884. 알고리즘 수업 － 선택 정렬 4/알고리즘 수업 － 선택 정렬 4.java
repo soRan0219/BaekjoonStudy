@@ -3,6 +3,8 @@ import java.util.*;
 
 public class Main {
 	static int cnt;
+	static Map<Integer, Integer> arrMap;
+	static int[] sorted;
 	
 	static void swap(int[] arr, int idx1, int idx2) {
 		cnt++;
@@ -12,12 +14,7 @@ public class Main {
 	}
 	
 	static void selectionSort(int[] arr, int k) {
-		int[] sorted = Arrays.copyOf(arr, arr.length);
 		Arrays.sort(sorted);
-		
-		Map<Integer, Integer> arrMap = new HashMap<>();
-		for(int i=0; i<arr.length; i++)
-			arrMap.put(arr[i], i);
 		
 		for(int i=arr.length-1; i>0; i--) {
 			if(sorted[i] != arr[i]) {
@@ -27,9 +24,10 @@ public class Main {
 				swap(arr, idx, i);
 			}
 			if(cnt == k) {
+                StringBuilder sb = new StringBuilder();
 				for(int a : arr)
-					System.out.print(a + " ");
-				System.out.println();
+					sb.append(a + " ");
+				System.out.println(sb);
 				return;
 			}
 		}
@@ -44,9 +42,15 @@ public class Main {
 		int k = Integer.parseInt(st.nextToken());
 		
 		int[] arr = new int[n];
+		sorted = new int[n];
+		arrMap = new HashMap<>();
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<n; i++)
+		
+		for(int i=0; i<n; i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
+			sorted[i] = arr[i];
+			arrMap.put(arr[i], i);
+		}
 		
 		selectionSort(arr, k);
 
