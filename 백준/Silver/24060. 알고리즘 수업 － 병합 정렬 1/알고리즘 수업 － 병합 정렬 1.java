@@ -1,10 +1,12 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 	static int N, K;
 	static int cnt;
-    static int[] sorted;
+	static int[] sorted;
+	static StringBuilder sb;
 	
 	static void mergeSort(int[] arr, int left, int right) {
 		if(left < right) {
@@ -24,55 +26,53 @@ public class Main {
 		
 		while(i<=mid && j<=right) {
 			if(arr[i] <= arr[j]) {
-				if(++cnt == K) {
-					System.out.println(arr[i]);
-					return;
-				}
 				sorted[t++] = arr[i++];
 			} else {
-				if(++cnt == K) {
-					System.out.println(arr[j]);
-					return;
-				}
 				sorted[t++] = arr[j++];
 			}
 		}
 		
 		//왼쪽 배열 부분이 남은 경우
-		while(i <= mid) {
-			if(++cnt == K) {
-				System.out.println(arr[i]);
-				return;
-			}
+		while(i <= mid) {		
 			sorted[t++] = arr[i++];
 		}
 		//오른쪽 배열 부분이 남은 경우
 		while(j <= right) {
-			if(++cnt == K) {
-				System.out.println(arr[j]);
-				return;
-			}
-			sorted[t++] = arr[j++];
-		}
+            sorted[t++] = arr[j++];
+        }
 		
 		//결과를 arr에 저장
 		i = left;
 		t = 0;
-		while(i <= right) arr[i++] = sorted[t++];
+		while(i <= right) {
+			//24060
+			if(++cnt == K) {
+				System.out.println(sorted[t]);
+				return;
+			}
+			arr[i++] = sorted[t++];
+			//24061
+//			if(++cnt==K) {
+//				for(int a : arr)
+//					sb.append(a + " ");
+//				System.out.println(sb);
+//			}
+		}
 	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		sb = new StringBuilder();
 		
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
-		sorted = new int[N];
 		int[] arr = new int[N];
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
+		sorted = Arrays.copyOf(arr, N);
 		
 		mergeSort(arr, 0, N-1);
 		if(cnt < K) System.out.println(-1);
