@@ -1,50 +1,44 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 	static char[][] stars;
 	
-	static void drawStar(int r, int c, int N) {
-		if(N==3) {
-			//k=0인 가장 작은 삼각형일 때
+	static void draw(int r, int c, int n) {
+		if(n == 3) {
+			//가장 작은 삼각형일 때
 			stars[r][c] = '*';
 			stars[r+1][c-1] = stars[r+1][c+1] = '*';
-			stars[r+2][c-2] = stars[r+2][c-1] = stars[r+2][c] = stars[r+2][c+1] = stars[r+2][c+2] = '*';
-			return;
+			stars[r+2][c-2] = stars[r+2][c-1] = stars[r+2][c] = stars[r+2][c+1] = stars[r+2][c+2] = '*';  
 		} else {
-			//큰 삼각형 -> 삼각형 세개로 쪼개기
-			int cut = N/2;
-			drawStar(r, c, cut); //가장 위 삼각형
-			drawStar(r+cut, c-cut, cut); //아래 왼쪽 삼각형
-			drawStar(r+cut, c+cut, cut); //아래 오른쪽 삼각형
+			//n이 3보다 클 때
+			// => 작은삼각형 3개로 쪼개기
+			int cut = n/2;
+			draw(r, c, cut);
+			draw(r+cut, c-cut, cut);
+			draw(r+cut, c+cut, cut);
 		}
-			
-	} //printStar()
+	}
 	
 	public static void main(String[] args) {
-		Scanner s = new Scanner(System.in);
-		int N = s.nextInt();
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		sc.close();
 		
-		stars = new char[N][N*2 - 1];
-		for(int i=0; i<N; i++) {
+		stars = new char[n][2*n-1];
+		for(int i=0; i<n; i++)
 			Arrays.fill(stars[i], ' ');
-		}
 		
-		s.close();
-		
-		//꼭대기에 찍히는 별 위치 -> [0][N-1]
-		//N줄짜리 삼각형
-		drawStar(0, N-1, N);
+		//꼭대기 별 위치: [0][n-1]
+		// (2*n-1)/2 랑 n-1이랑 같음
+//		draw(0, (2*n-1)/2, n);
+		draw(0, n-1, n);
 		
 		StringBuilder sb = new StringBuilder();
-		for(int i=0; i<N; i++) {
-			for(int j=0; j<2*N-1; j++) {
-				sb.append(stars[i][j]);
-			}
-			sb.append('\n');
+		for(int i=0; i<n; i++) {
+			for(char s : stars[i])
+				sb.append(s);
+			sb.append("\n");
 		}
 		System.out.println(sb);
-		
-	} //main()
-
+	}
 }
