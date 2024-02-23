@@ -1,63 +1,50 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static int nodes, conn;
+	static int N;
 	static List<ArrayList<Integer>> computers = new ArrayList<>();
-	static boolean[] visited;
 	
-	static void virus(int start) {
-		Queue<Integer> q = new LinkedList<Integer>();
-		q.add(start);
-		visited[start] = true;
+	static int getInfected(int num) {
+		boolean[] visited = new boolean[N+1];
+		Queue<Integer> que = new LinkedList<Integer>();
+		int result = 0;
 		
-		while(!q.isEmpty()) {
-			int now = q.poll();
-			
-			for(int n : computers.get(now)) {
-				if(!visited[n]) {
-					q.add(n);
-					visited[n] = true;
+		que.add(num);
+		visited[num] = true;
+		
+		while(!que.isEmpty()) {
+			int infected = que.poll();
+			for(int i=0; i<computers.get(infected).size(); i++) {
+				int next = computers.get(infected).get(i);
+				if(!visited[next]) {
+					que.add(next);
+					visited[next] = true;
+					result++;
 				}
 			}
-			
-		} //while
-		
-		int result = 0;
-		for(int i=0; i<visited.length; i++) {
-			if(visited[i]) result++;
 		}
 		
-		System.out.println(result-1);
-	} //virus()
+		return result;
+	}
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		nodes = Integer.parseInt(br.readLine());
-		visited = new boolean[nodes+1];
+		N = Integer.parseInt(br.readLine());
+		int m = Integer.parseInt(br.readLine());
 		
-		for(int i=0; i<nodes+1; i++) {
+		for(int i=0; i<N+1; i++)
 			computers.add(new ArrayList<Integer>());
-		}
 		
-		conn = Integer.parseInt(br.readLine());
-		for(int i=0; i<conn; i++) {
+		for(int i=0; i<m; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			int node = Integer.parseInt(st.nextToken());
-			int close = Integer.parseInt(st.nextToken());
+			int n1 = Integer.parseInt(st.nextToken());
+			int n2 = Integer.parseInt(st.nextToken());
 			
-			computers.get(node).add(close);
-			computers.get(close).add(node);
+			computers.get(n1).add(n2);
+			computers.get(n2).add(n1);
 		}
 		
-		virus(1);
-		
-	} //main()
-
+		System.out.println(getInfected(1));
+	}
 }
