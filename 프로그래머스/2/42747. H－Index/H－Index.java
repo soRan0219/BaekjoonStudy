@@ -11,13 +11,10 @@ class Solution {
         	
         	for(int j=0; j<n; j++) {
         		if(citations[j] >= i && n-j >= i) {
-        			if(j>0 && citations[j-1] <= i) {
+        			if((j>0 && citations[j-1] <= i) || j==0) {
         				h_idx = i;
         				break;
-        			} else if(j == 0) {
-                        h_idx = i;
-                        break;
-                    }
+        			} 
         		}
         	
         	}
