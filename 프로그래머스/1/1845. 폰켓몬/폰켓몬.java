@@ -11,7 +11,6 @@ class Solution {
         	else map.put(nums[i], 1);
         }
         
-        if(map.size() < mons) return map.size();
-        else return mons;
+        return Math.min(mons, map.size());
     }
 }
