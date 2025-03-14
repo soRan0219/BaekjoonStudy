@@ -10,7 +10,7 @@ class Solution {
         }
         
         List<String> keyList_total = new ArrayList<>(totalPlay.keySet());
-        Collections.sort(keyList_total, (v1, v2) -> totalPlay.get(v2).compareTo(totalPlay.get(v1)));
+        keyList_total.sort((o1, o2) -> totalPlay.get(o2) - totalPlay.get(o1));
         
         Iterator<String> it = keyList_total.iterator();
         
@@ -23,7 +23,7 @@ class Solution {
         	}
         	
         	List<Integer> keyList_music = new ArrayList<>(music.keySet());
-        	Collections.sort(keyList_music, (v1, v2) -> music.get(v2).compareTo(music.get(v1)));
+            keyList_music.sort((o1, o2) -> music.get(o2) - music.get(o1));
         	
         	for(int j=0; j<keyList_music.size()&&j<2; j++) answer.add(keyList_music.get(j));
         }
