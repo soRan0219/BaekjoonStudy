@@ -32,10 +32,7 @@ class Solution {
 		visited = new boolean[len];
 		set = new HashSet<>();
 		
-        int answer = 0;
-        String arr[] = new String[len];
-        
-        for(int i=0; i<len; i++) arr[i] = String.valueOf(numbers.charAt(i));
+        int answer = 0;        
         
         dfs(numbers, 0, "");
         
