@@ -12,14 +12,13 @@ class Solution {
 		for(int r : reserve) reserveList.add(r);
 		
 		for(int i=0; i<lostList.size(); i++) {
-			for(int j=0; j<reserveList.size(); j++) {
-				if(lostList.get(i) == reserveList.get(j)) {
-					lostList.remove(i);
-					reserveList.remove(j);
-					i--;
-					break;
-				}
+			
+			if(reserveList.contains(lostList.get(i))) {
+				reserveList.remove(Integer.valueOf(lostList.get(i)));
+				lostList.remove(i);
+				i--;
 			}
+			
 		}
 		int answer = n - lostList.size();
 		
