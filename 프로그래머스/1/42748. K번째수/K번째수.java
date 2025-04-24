@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class Solution {
     	
 	static void swap(int[] a, int idx1, int idx2) {
@@ -6,43 +8,54 @@ class Solution {
 		a[idx2] = temp;
 	}
 	
-	static int partition(int[] a, int left, int right) {
-		int pivot = a[right];
-		int i = left - 1;
+	//최대힙 구성
+	static void heapify(int[] arr, int parent, int last) {
+		int left, right, largest;
 		
-		for(int j=left; j<right; j++) {
-			if(a[j] <= pivot) swap(a, ++i, j);
+		while(parent*2+1 <= last) {
+			left = parent*2 + 1;
+			right = parent*2 + 2;
+			largest = parent;
+			
+			if(left<=last && arr[left]>arr[largest]) largest = left;
+			if(right<=last && arr[right]>arr[largest]) largest = right;
+			
+			if(largest != parent) {
+				swap(arr, parent, largest);
+				parent = largest;
+			} 
+			else {
+				break;
+			}
 		}
-		if(i+1 != right) swap(a, i+1, right);
-		
-		return i+1;
 	}
 	
-	static void quickSort(int[] a, int left, int right) {
-		if(left < right) {
-			int q = partition(a, left, right);
-			quickSort(a, left, q-1);
-			quickSort(a, q+1, right);
+	//힙정렬
+	static void heapSort(int[] arr) {
+		if(arr.length <= 1) return;
+		
+		for(int i=arr.length/2; i>=0; i--) {
+			heapify(arr, i, arr.length-1);
+		}
+		for(int i=arr.length-1; i>=0; i--) {
+			swap(arr, 0, i);
+			heapify(arr, 0, i-1);
 		}
 	}
-    
-    public int[] solution(int[] array, int[][] commands) {
-        int[] answer = new int[commands.length];
+	
+	static int[] solution(int[] array, int[][] commands) {
+		int[] answer = new int[commands.length];
 		
 		for(int i=0; i<commands.length; i++) {
-			int start = commands[i][0] - 1;
-			int last = commands[i][1] - 1;
+			int[] partial = Arrays.copyOfRange(array, commands[i][0]-1, commands[i][1]);
 			
-			int[] tmp = new int[last-start+1];
-			for(int j=0; j<tmp.length; j++) {
-				tmp[j] = array[j+start];
-			}
+			//정렬
+			heapSort(partial);
 			
-			if(tmp.length > 0) quickSort(tmp, 0, tmp.length-1);
-			
-			int idx = commands[i][2] - 1;
-			answer[i] = tmp[idx];
+			answer[i] = partial[commands[i][2]-1];
+			System.out.println(answer[i]);
 		}
-        return answer;
-    }
+		
+		return answer;
+	}
 }
