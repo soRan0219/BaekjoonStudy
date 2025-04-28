@@ -7,16 +7,11 @@ class Solution {
         
         int h_idx = 0;
         
-        for(int i=0; i<=citations[n-1]; i++) {
-        	
-        	for(int j=0; j<n; j++) {
-        		if(citations[j] >= i && n-j >= i) {
-        			if((j>0 && citations[j-1] <= i) || j==0) {
-        				h_idx = i;
-        				break;
-        			} 
+        for(int i=0; i<n; i++) {
+        	if(citations[i] > 1) {
+        		for(int j=1; j<=citations[i]; j++) {
+        			if(j<=n-i) h_idx = Math.max(j, h_idx);
         		}
-        	
         	}
         }
         
