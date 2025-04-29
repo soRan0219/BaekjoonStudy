@@ -6,7 +6,6 @@ class Solution {
     	
     	for(int n : nums) pokemons.add(n);
     	
-    	if(nums.length/2 > pokemons.size()) return pokemons.size();
-    	else return nums.length/2;
+    	return nums.length/2>pokemons.size() ? pokemons.size() : nums.length/2;
     }
 }
