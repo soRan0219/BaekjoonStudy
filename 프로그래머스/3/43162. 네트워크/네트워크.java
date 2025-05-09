@@ -10,7 +10,7 @@ public class Solution {
 		
 		for(int i=0; i<n; i++) {
 			if(!visited[i]) {
-				bfs(n, i, computers);
+				bfs(i, computers);
 				answer++;
 			}
 		}
@@ -18,18 +18,18 @@ public class Solution {
 		return answer;
 	}
 	
-	static void bfs(int n, int idx, int[][] computers) {
-		Queue<Integer> que = new LinkedList<Integer>();
+	static void bfs(int idx, int[][] computers) {
+		Queue<int[]> que = new LinkedList<>();
 		
-		que.offer(idx);
+		que.offer(computers[idx]);
 		visited[idx] = true;
 		
 		while(!que.isEmpty()) {
-			int now = que.poll();
+			int[] now = que.poll();
 			
-			for(int i=0; i<n; i++) {
-				if(!visited[i] && computers[now][i]==1) {
-					que.offer(i);
+			for(int i=0; i<now.length; i++) {
+				if(!visited[i] && now[i]==1) {
+					que.offer(computers[i]);
 					visited[i] = true;
 				} 
 			}
