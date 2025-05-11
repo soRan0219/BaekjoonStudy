@@ -20,7 +20,8 @@ class Solution {
 			idx2 = now[1];
 			int count = now[2];
 						
-			if(idx1==0 && idx2==0) {
+			//if(idx1==0 && idx2==0) {
+            if(idx1==n-1 && idx2==m-1) {
 				answer = count;
 				break;
 			}
@@ -45,7 +46,8 @@ class Solution {
 		m = maps[0].length;
 		visited = new boolean[n][m];
 		
-		bfs(maps, n-1, m-1);
+		//bfs(maps, n-1, m-1);
+        bfs(maps, 0, 0);
         
         return answer;
     }
