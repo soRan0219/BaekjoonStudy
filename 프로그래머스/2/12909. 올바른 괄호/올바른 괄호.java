@@ -5,12 +5,9 @@ class Solution {
         char[] charArr = s.toCharArray();
         Stack<Character> stack = new Stack<>();
         
-        if(charArr[0] == ')') return false;
-        stack.add(charArr[0]);
-        
-        for(int i=1; i<charArr.length; i++) {
-        	if(charArr[i] == '(') {
-        		stack.add(charArr[i]);
+        for(char c : charArr) {
+        	if(c == '(') {
+        		stack.add(c);
         	} else {
         		try {
         			stack.pop();
